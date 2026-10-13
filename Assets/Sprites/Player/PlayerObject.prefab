@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 444080873473320424}
   - component: {fileID: 1455501553752551681}
   - component: {fileID: 5915666357510211579}
+  - component: {fileID: 5259058959663107247}
   m_Layer: 8
   m_Name: PlayerObject
   m_TagString: Player
@@ -242,3 +243,15 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   mostrarDiagnostico: 1
+--- !u!114 &5259058959663107247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6251552641674711580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db029d19abb34884d9d39848aab98be6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RecogerObjeto

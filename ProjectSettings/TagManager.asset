@@ -9,6 +9,8 @@ TagManager:
   - moneda
   - obstaculo
   - Obstaculo
+  - gema
+  - cereza
   layers:
   - Default
   - TransparentFX
