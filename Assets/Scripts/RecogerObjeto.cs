@@ -2,6 +2,13 @@ using UnityEngine;
 
 public class RecogerObjeto : MonoBehaviour
 {
+
+    PlayerVidas playerVidas;
+    public void Awake(){
+        playerVidas = GameObject.Find("PlayerObject").GetComponent<PlayerVidas>();
+    }
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("moneda"))
@@ -15,6 +22,7 @@ public class RecogerObjeto : MonoBehaviour
         else if (collision.CompareTag("obstaculo") || collision.CompareTag("Obstaculo"))
         {
             Debug.Log("Game over");
+            playerVidas.SufreDano();
         }
     }
 
@@ -23,6 +31,7 @@ public class RecogerObjeto : MonoBehaviour
         if (collision.gameObject.CompareTag("obstaculo") || collision.gameObject.CompareTag("Obstaculo"))
         {
             Debug.Log("Game over");
+            playerVidas.SufreDano();
         }
     }
 }
