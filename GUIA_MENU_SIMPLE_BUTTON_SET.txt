@@ -1,0 +1,389 @@
+==========================================================================
+  GUIA PASO A PASO: MENU EN UNITY CON "SIMPLE BUTTON SET 01"
+  Proyecto: ninja-frog-2d  (Unity 6000.3 / Unity 6)
+  Escena del menu: Assets/Scene/MenuMain.unity
+  Escena de juego: Nivel1
+==========================================================================
+
+Convenciones:
+  [ ]  = casilla que debes DESMARCAR
+  [X]  = casilla que debes MARCAR
+  Los colores se escriben en hexadecimal (ej. 412402) en el campo "Hexadecimal"
+  del selector de color de Unity.
+
+--------------------------------------------------------------------------
+PASO 0. ANTES DE EMPEZAR
+--------------------------------------------------------------------------
+ 0.1  Abre la escena Assets/Scene/MenuMain.unity (doble clic).
+ 0.2  El script MenuManager.cs ya esta en Assets/Scripts/Menu/MenuManager.cs.
+      Espera a que Unity termine de compilar (rueda girando abajo a la derecha).
+ 0.3  IMPORTANTE: si tus botones viejos usan el script ManejaMenu en su lista
+      "On Click ()", quita esas entradas (boton "-"). MenuManager conecta
+      los botones por codigo; si dejas las dos cosas, cada clic se ejecuta
+      dos veces.
+
+--------------------------------------------------------------------------
+PASO 1. IMPORTAR "SIMPLE BUTTON SET 01"
+--------------------------------------------------------------------------
+ 1.1  Window > Package Management > Package Manager
+      (en versiones anteriores: Window > Package Manager).
+ 1.2  En el panel izquierdo elige "My Assets" (Mis Assets).
+ 1.3  Busca "Simple Button Set 01" > Download > Import.
+ 1.4  En la ventana de importacion deja todo marcado y pulsa Import.
+
+--------------------------------------------------------------------------
+PASO 2. PREPARAR LOS SPRITES
+--------------------------------------------------------------------------
+ 2.1  En la ventana Project, entra a la carpeta del set (buttons, icons,
+      slider, toggle...).
+ 2.2  Selecciona los sprites de botones, slider y toggle (Ctrl+clic para
+      seleccionar varios).
+ 2.3  En el Inspector confirma:
+        Texture Type = Sprite (2D and UI)
+      Si lo cambiaste, pulsa Apply.
+ 2.4  Para CADA sprite de boton (y barras del slider):
+        a) Selecciona el sprite > boton "Open Sprite Editor".
+        b) Arrastra las lineas verdes (o escribe en Border L / R / T / B)
+           para dejar fuera las esquinas redondeadas. Ejemplo tipico:
+           L 30, R 30, T 30, B 30 (ajusta segun el sprite).
+        c) Pulsa Apply (arriba a la derecha del Sprite Editor) y cierra.
+      Con esto el sprite se estira sin deformar las esquinas (9-slice).
+
+--------------------------------------------------------------------------
+PASO 3. CREAR EL CANVAS
+--------------------------------------------------------------------------
+ 3.1  Hierarchy > clic derecho > UI > Canvas.
+ 3.2  Selecciona Canvas y en el componente Canvas Scaler:
+        UI Scale Mode        = Scale With Screen Size
+        Reference Resolution = X 1920   Y 1080
+        Screen Match Mode    = Match Width Or Height
+        Match                = 0.5
+ 3.3  Unity crea un "EventSystem" automaticamente. Dejalo.
+ 3.4  Si aparece "Import TMP Essentials", pulsa Import TMP Essentials.
+
+--------------------------------------------------------------------------
+PASO 4. CREAR LOS TRES PANELES
+--------------------------------------------------------------------------
+ 4.1  Clic derecho sobre Canvas > UI > Panel. Renombralo (F2): MainPanel
+ 4.2  Con MainPanel seleccionado pulsa Ctrl+D dos veces.
+      Renombra las copias: OptionsPanel y CreditsPanel.
+ 4.3  En CADA panel, componente Image:
+        Source Image = None (clic en el circulito > None)
+        Color        = morado oscuro / cafe oscuro (ej. 412402), Alpha 255
+ 4.4  Deja los tres activos. El script apagara los que no se usen al dar Play.
+      (Para trabajar comodo puedes ocultar temporalmente los que no editas
+       con la casilla junto al nombre en el Inspector, pero vuelvelos a
+       activar antes de terminar).
+
+--------------------------------------------------------------------------
+PASO 5. VERTICAL LAYOUT GROUP EN MainPanel
+--------------------------------------------------------------------------
+ 5.1  Selecciona MainPanel > Add Component > Vertical Layout Group.
+ 5.2  Configura:
+        Spacing             = 20
+        Child Alignment     = Middle Center
+        Control Child Size  = [ ] Width  [ ] Height
+        Use Child Scale     = [ ] Width  [ ] Height
+        Child Force Expand  = [ ] Width  [ ] Height
+      Asi los botones se apilan centrados con espacio uniforme.
+
+--------------------------------------------------------------------------
+PASO 6. CREAR EL BOTON ALARGADO "JUGAR"
+--------------------------------------------------------------------------
+ 6.1  Clic derecho sobre MainPanel > UI > Button - TextMeshPro.
+      Renombralo: BtnJugar
+ 6.2  Componente Image:
+        Source Image = sprite del boton alargado del set
+        Image Type   = Sliced
+ 6.3  Rect Transform:
+        Width = 600     Height = 100
+ 6.4  Componente Button (Transition = Color Tint):
+        Normal Color      = FFFFFF
+        Highlighted Color = FFE6B4
+        Pressed Color     = C8C8C8
+        (ajustalos a tu gusto)
+ 6.5  Despliega BtnJugar > selecciona "Text (TMP)":
+        Text      = Jugar
+        Font Size = 60
+        Alignment = Center + Middle
+ 6.6  Ajusta colores/fuente al gusto.
+
+--------------------------------------------------------------------------
+PASO 7. ANADIR EL ICONO AL BOTON
+--------------------------------------------------------------------------
+ 7.1  Selecciona BtnJugar > Add Component > Horizontal Layout Group:
+        Spacing             = 12
+        Child Alignment     = Middle Center
+        Control Child Size  = [X] Width  [X] Height
+        Child Force Expand  = [ ] Width  [ ] Height
+ 7.2  Clic derecho sobre BtnJugar > UI > Image. Renombrala: Icon
+        Source Image = icono blanco de 64 px del set (carpeta icons)
+ 7.3  Selecciona Icon > Add Component > Layout Element:
+        Preferred Width  = [X] 48
+        Preferred Height = [X] 48
+ 7.4  En la Hierarchy arrastra Icon para que quede ARRIBA de "Text (TMP)"
+      (el primero de la lista sale a la izquierda).
+ 7.5  Selecciona "Text (TMP)" > en Extra Settings / Wrapping:
+        Wrapping = Disabled  (en versiones viejas: desmarca Enable Wrapping)
+ 7.6  Crea la carpeta Assets/PreFabs/UI (o usa Assets/PreFabs).
+      Arrastra BtnJugar desde la Hierarchy a esa carpeta -> se vuelve Prefab
+      (se pone azul).
+ 7.7  Selecciona BtnJugar en la Hierarchy y pulsa Ctrl+D tres veces.
+      Renombra y cambia texto e icono:
+        BtnOpciones  -> texto "Opciones"  -> icono engrane/settings
+        BtnCreditos  -> texto "Creditos"  -> icono estrella/info
+        BtnSalir     -> texto "Salir"     -> icono cross/salida
+
+--------------------------------------------------------------------------
+PASO 8. CONSTRUIR OptionsPanel
+--------------------------------------------------------------------------
+ 8.1  OptionsPanel (el panel):
+        Rect Transform:
+          Anchor Preset = Stretch/Stretch
+                          (mantener Alt+Shift al hacer clic en el preset)
+          Left 0, Right 0, Top 0, Bottom 0
+        Image:
+          Source Image = None
+          Color        = 412402
+        Add Component > Vertical Layout Group:
+          Padding             = Left 120, Right 120, Top 80, Bottom 80
+          Spacing             = 40
+          Child Alignment     = Upper Center
+          Control Child Size  = [X] Width  [X] Height
+          Child Force Expand  = [ ] Width  [ ] Height
+      NOTA: como Control Child Size esta marcado, CADA hijo necesita un
+      Layout Element con su tamano preferido (se indica abajo).
+
+ Crea los hijos de OptionsPanel en este ORDEN (de arriba a abajo):
+      1. Titulo
+      2. TxtVolumen
+      3. SliderVolumen
+      4. ToggleMusica
+      5. ToggleEfectos
+      6. BtnVolver   (se coloca aparte, ignora el layout)
+
+ --- 8.2  Titulo -------------------------------------------------------
+      Clic derecho OptionsPanel > UI > Text - TextMeshPro. Nombre: Titulo
+        TextMeshPro:
+          Text         = Opciones
+          Font Size    = 64
+          Alignment    = Center + Middle
+          Vertex Color = FAEEDA
+        Add Component > Layout Element:
+          Preferred Height = [X] 90
+
+ --- 8.3  Texto "Volumen" ----------------------------------------------
+      UI > Text - TextMeshPro. Nombre: TxtVolumen
+        TextMeshPro:
+          Text         = Volumen
+          Font Size    = 40
+          Vertex Color = FAC775
+          Alignment    = Left + Middle
+        Layout Element:
+          Preferred Height = [X] 60
+
+ --- 8.4  Slider -------------------------------------------------------
+      UI > Slider. Nombre: SliderVolumen
+      a) SliderVolumen (objeto raiz):
+           Layout Element:
+             Preferred Width  = [X] 600
+             Preferred Height = [X] 50
+           Slider:
+             Min Value     = 0
+             Max Value     = 1
+             Whole Numbers = [ ]
+             Value         = 0.7
+             Fill Rect     = Fill     (debe estar asignado)
+             Handle Rect   = Handle   (debe estar asignado)
+
+      b) SliderVolumen > Background:
+           Image:
+             Source Image = universal_panel_... (barra oscura)
+             Image Type   = Sliced
+             Color        = FFFFFF
+           Rect Transform:
+             Anchor Min Y = 0.5   Anchor Max Y = 0.5
+             (Anchor Min X = 0, Max X = 1)
+             Left 0, Right 0, Height 18
+
+      c) SliderVolumen > Fill Area:
+           Rect Transform: mismos anchors que Background
+             (Min Y 0.5, Max Y 0.5, Min X 0, Max X 1)
+             Height 18, Left 0, Right 22
+         SliderVolumen > Fill Area > Fill:
+           Image:
+             Source Image = radio_100
+             Image Type   = Sliced
+             Color        = EF9F27
+
+      d) SliderVolumen > Handle Slide Area:
+           Rect Transform: Left 22, Right 22
+         SliderVolumen > Handle Slide Area > Handle:
+           Image:
+             Source Image    = slider_handle
+             Image Type      = Simple
+             Preserve Aspect = [X]
+             Color           = FFFFFF
+           Rect Transform:
+             Width = 44
+
+      Resultado: la perilla mide unos 44 x 44.
+      Si el Fill se pasa de la perilla o queda corto, ajusta el "Right" de
+      Fill Area entre 15 y 30.
+
+ --- 8.5  Toggles (Musica y Efectos) -----------------------------------
+      UI > Toggle. Nombre: ToggleMusica
+      a) ToggleMusica (raiz):
+           Layout Element:
+             Preferred Width  = [X] 600
+             Preferred Height = [X] 70
+           Toggle:
+             Is On          = [X]
+             Transition     = Color Tint
+             Target Graphic = Background
+             Graphic        = Checkmark
+
+      b) ToggleMusica > Background:
+           Rect Transform:
+             Anchor Min = (1, 0.5)   Anchor Max = (1, 0.5)
+             Pivot      = (1, 0.5)
+             Pos X = 0   Pos Y = 0
+             Width = 64  Height = 64
+           Image:
+             Source Image = toggle_bg_100
+             Image Type   = Sliced
+
+      c) ToggleMusica > Background > Checkmark:
+           Image:
+             Source Image = radio_60
+             Color        = 412402
+           Rect Transform:
+             Width = 36  Height = 36
+
+      d) ToggleMusica > Label:
+           Rect Transform: Anchors Stretch/Stretch, Left 0, Right 80
+           (Si el Label es "Text" legacy, borralo y crea uno
+            UI > Text - TextMeshPro con el nombre Label.)
+           TextMeshPro:
+             Text         = Musica
+             Font Size    = 40
+             Vertex Color = FAC775
+             Alignment    = Left + Middle
+
+      e) Selecciona ToggleMusica > Ctrl+D > renombralo ToggleEfectos y
+         cambia el texto del Label a "Efectos".
+
+ --- 8.6  Boton Volver (redondo, esquina superior izquierda) -----------
+      UI > Button - TextMeshPro dentro de OptionsPanel. Nombre: BtnVolver
+      Borra su hijo "Text (TMP)".
+        Layout Element:
+          Ignore Layout = [X]
+        Rect Transform:
+          Anchor Preset = Top Left
+          Pos X = 70   Pos Y = -70
+          Width = 90   Height = 90
+        Image:
+          Source Image = sprite redondo de la carpeta buttons
+          Color        = FFFFFF
+        Button:
+          Transition        = Color Tint
+          Highlighted Color = FFE6B4
+          Pressed Color     = C8C8C8
+          Fade Duration     = 0.1
+      Hijo: clic derecho BtnVolver > UI > Image. Nombre: Icon
+          Source Image = flecha de icons/64x64 (o "cross" si no hay flecha)
+          Width = 48   Height = 48
+          Color = 412402
+
+--------------------------------------------------------------------------
+PASO 9. CONSTRUIR CreditsPanel
+--------------------------------------------------------------------------
+ 9.1  Configura CreditsPanel igual que OptionsPanel (paso 8.1: anchors,
+      color 412402 y Vertical Layout Group).
+ 9.2  Agrega un Titulo "Creditos" (igual que 8.2).
+ 9.3  Agrega un UI > Text - TextMeshPro con los nombres del equipo:
+        Font Size 40, Color FAC775, Alignment Center + Middle
+        Layout Element > Preferred Height = 400 (o lo que necesites)
+ 9.4  Copia BtnVolver de OptionsPanel (Ctrl+C) y pegalo en CreditsPanel
+      (clic derecho sobre CreditsPanel > Paste As Child). Revisa que siga
+      en Top Left, Pos 70 / -70.
+
+--------------------------------------------------------------------------
+PASO 10. AGREGAR LA MUSICA (AudioSource)
+--------------------------------------------------------------------------
+ 10.1 Hierarchy > clic derecho > Audio > Audio Source. Nombre: MusicPlayer
+ 10.2 En el componente Audio Source:
+        AudioClip     = una cancion de Assets/Music
+        Play On Awake = [X]
+        Loop          = [X]
+        Volume        = 1
+
+--------------------------------------------------------------------------
+PASO 11. CONECTAR MenuManager
+--------------------------------------------------------------------------
+ 11.1 Hierarchy > clic derecho > Create Empty. Nombre: MenuManager
+ 11.2 Add Component > MenuManager (o arrastra el script
+      Assets/Scripts/Menu/MenuManager.cs al objeto).
+ 11.3 Arrastra desde la Hierarchy a cada campo:
+        Paneles:
+          Main Panel      <- MainPanel
+          Options Panel   <- OptionsPanel
+          Credits Panel   <- CreditsPanel
+        Botones del menu principal:
+          Play Button     <- BtnJugar
+          Options Button  <- BtnOpciones
+          Credits Button  <- BtnCreditos
+          Quit Button     <- BtnSalir
+        Botones Volver:
+          Back Buttons    -> pulsa "+" dos veces y arrastra
+                             BtnVolver (OptionsPanel) y BtnVolver (CreditsPanel)
+        Opciones:
+          Volume Slider   <- SliderVolumen
+          Mute Toggle     <- ToggleMusica   (marcado = la musica suena)
+          Effects Toggle  <- ToggleEfectos  (opcional, guarda la preferencia)
+          Music Source    <- MusicPlayer
+        Escena de juego:
+          Game Scene Name =  Nivel1   (nombre EXACTO de la escena)
+
+--------------------------------------------------------------------------
+PASO 12. BUILD SETTINGS Y PRUEBA
+--------------------------------------------------------------------------
+ 12.1 File > Build Profiles > Scene List
+      (en versiones anteriores: File > Build Settings).
+ 12.2 Verifica que esten agregadas y en este orden:
+        0  Scene/MenuMain
+        1  Scene/Nivel1
+      Si falta alguna, pulsa "Add Open Scenes" o arrastrala desde Project.
+ 12.3 Guarda la escena (Ctrl+S).
+ 12.4 Pulsa Play y comprueba:
+        [ ] Solo se ve MainPanel al iniciar.
+        [ ] Opciones abre OptionsPanel; Volver regresa al menu.
+        [ ] Creditos abre CreditsPanel; Volver regresa al menu.
+        [ ] El slider sube/baja el volumen.
+        [ ] El toggle Musica silencia / reactiva la musica.
+        [ ] Jugar carga Nivel1.
+        [ ] Salir muestra "Salir" en la Console (en el editor no se cierra;
+            solo se cierra en el juego compilado).
+
+--------------------------------------------------------------------------
+PROBLEMAS COMUNES
+--------------------------------------------------------------------------
+ * Un boton hace la accion dos veces
+     -> Quita las entradas de ManejaMenu en su "On Click ()" (paso 0.3).
+ * Los botones no responden al clic
+     -> Debe existir un EventSystem en la escena. Si Unity pide cambiar
+        el modulo a "Input System UI Input Module", acepta.
+ * "Scene 'Nivel1' couldn't be loaded"
+     -> La escena no esta en Build Profiles / Build Settings (paso 12),
+        o el nombre en Game Scene Name no coincide exactamente.
+ * Los elementos de OptionsPanel salen del tamano incorrecto
+     -> Revisa que cada hijo tenga su Layout Element con Preferred
+        Width/Height marcado (paso 8).
+ * El boton se ve deformado en las esquinas
+     -> Falta definir el 9-slice en el Sprite Editor (paso 2.4) o el
+        Image Type no esta en Sliced.
+ * El texto del boton se parte en dos lineas
+     -> Desactiva el Wrapping del Text (TMP) (paso 7.5).
+
+Si algun campo no existe en tu version de Unity o el resultado se ve
+distinto, anota cual es y que ves para ajustarlo.
