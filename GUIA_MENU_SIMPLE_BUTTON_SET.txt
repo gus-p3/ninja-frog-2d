@@ -15,6 +15,17 @@ Convenciones:
 PASO 0. ANTES DE EMPEZAR
 --------------------------------------------------------------------------
  0.1  Abre la escena Assets/Scene/MenuMain.unity (doble clic).
+      SI NO TIENES MenuMain.unity, creala:
+        a) En la ventana Project, entra a la carpeta Assets/Scene
+           (si no existe: clic derecho en Assets > Create > Folder > "Scene").
+        b) Clic derecho dentro de la carpeta > Create > Scene > Scene
+           (en algunas versiones: Create > Scene). Nombre: MenuMain
+        c) Doble clic en MenuMain para abrirla. Debe traer Main Camera.
+        d) Selecciona Main Camera y, si quieres, pon su Background en el
+           mismo color de los paneles (412402).
+        e) Ctrl+S para guardar.
+      (Alternativa: File > New Scene > Basic 2D (Built-in) o Empty >
+       Create, y luego File > Save As... > Assets/Scene/MenuMain.unity)
  0.2  El script MenuManager.cs ya esta en Assets/Scripts/Menu/MenuManager.cs.
       Espera a que Unity termine de compilar (rueda girando abajo a la derecha).
  0.3  IMPORTANTE: si tus botones viejos usan el script ManejaMenu en su lista
@@ -354,6 +365,10 @@ PASO 12. BUILD SETTINGS Y PRUEBA
         0  Scene/MenuMain
         1  Scene/Nivel1
       Si falta alguna, pulsa "Add Open Scenes" o arrastrala desde Project.
+      Si ves una escena en gris o con "Deleted"/"Missing" (por ejemplo
+      Scenes/Juego), quitala: seleccionala y pulsa Supr / boton "-".
+      MenuMain debe quedar arriba (indice 0) para que sea la primera
+      escena al abrir el juego; arrastrala hacia arriba si no lo esta.
  12.3 Guarda la escena (Ctrl+S).
  12.4 Pulsa Play y comprueba:
         [ ] Solo se ve MainPanel al iniciar.
